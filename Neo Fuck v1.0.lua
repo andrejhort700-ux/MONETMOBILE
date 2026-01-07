@@ -165,9 +165,15 @@ end
 -- Вкладка читов
 function cheatsTab()
     imgui.SetCursorPos(imgui.ImVec2(15, 10 * MONET_DPI_SCALE))
-    if imgui.Checkbox("Бег CJ", cjRun) then
-        -- Только для MoonLoader, для MonetLoader - заглушка
-        if not isMonetLoader() then
+    
+    if isMonetLoader() then
+        -- Для MonetLoader: заглушка (отключенный чекбокс)
+        imgui.BeginDisabled(true)
+        imgui.Checkbox("Бег CJ##disabled", cjRun)
+        imgui.EndDisabled()
+    else
+        -- Для MoonLoader: работающий чекбокс
+        if imgui.Checkbox("Бег CJ", cjRun) then
             applyCJState(cjRun[0])
         end
     end
