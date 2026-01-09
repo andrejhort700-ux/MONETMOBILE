@@ -528,6 +528,7 @@ function downloadAndReplaceScript()
     end)
 end
 
+-- Окно обновления
 imgui.OnFrame(function() return update_window_open[0] end, function()
     local scrx, scry = getScreenResolution()
     imgui.SetNextWindowPos(imgui.ImVec2(scrx / 2, scry / 2), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
@@ -537,45 +538,33 @@ imgui.OnFrame(function() return update_window_open[0] end, function()
         imgui.BeginChild("update_child", imgui.ImVec2(0, 0), true)
 
         -- Собираем текст и измеряем ширину
-local text1 = "Neo "
-local text2 = "Fuck "
-local text3 = "Обнаружено обновление!"
-local total_width =
+    local text1 = "Neo "
+    local text2 = "Fuck "
+    local text3 = "Обнаружено обновление!"
+    local total_width =
     imgui.CalcTextSize(text1).x +
     imgui.CalcTextSize(text2).x +
     imgui.CalcTextSize(text3).x - 8 -- учтём сдвиг
 
--- Центрируем по ширине окна
-local window_width = imgui.GetWindowSize().x
-local start_x = (window_width - total_width) / 2
-imgui.SetCursorPosX(start_x)
+    -- Центрируем по ширине окна
+    local window_width = imgui.GetWindowSize().x
+    local start_x = (window_width - total_width) / 2
+    imgui.SetCursorPosX(start_x)
 
--- Рисуем по частям
-imgui.TextColored(colors.blue, text1)
-imgui.SameLine()
-imgui.SetCursorPosX(imgui.GetCursorPosX() - 8)
-imgui.TextColored(colors.red, text2)
-imgui.SameLine()
-imgui.Text(text3)
-
-        
-        imgui.CenterText("---------------------------------------------------------------------------------------------------------------------------------------------------function")
-        
-        
-        
-        
-
-        
-        imgui.CenterText("")
-        
+        -- Рисуем по частям
+        imgui.TextColored(colors.blue, text1)
+        imgui.SameLine()
+        imgui.SetCursorPosX(imgui.GetCursorPosX() - 8)
+        imgui.TextColored(colors.red, text2)
+        imgui.SameLine()
+        imgui.Text(text3)
+        imgui.Separator()
+        imgui.Spacing()
         imgui.CenterText("Найдена новая версия скрипта.")
         imgui.CenterText("Чтобы продолжить работу,")
         imgui.CenterText("выберите один из вариантов ниже.")
-        imgui.CenterText("")
-
-        imgui.CenterText("")
-        
-
+        imgui.Spacing()
+        imgui.Spacing()
         if imgui.Button(fa.FORWARD .. " ПРОПУСТИТЬ", imgui.ImVec2(325, 70)) then
             update_window_open[0] = false
         end
@@ -583,7 +572,6 @@ imgui.Text(text3)
         if imgui.Button(fa.DOWNLOAD .. " ОБНОВИТЬ", imgui.ImVec2(325, 70)) and not update_checking[0] then
             downloadAndReplaceScript()
         end
-
         imgui.EndChild()
     end
     imgui.End()
